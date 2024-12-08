@@ -7,7 +7,7 @@ namespace ClientSideLibraryManagementSystem.Services
         
         Task<IEnumerable<UsersEntity>> GetAllUsersAsync();
         Task<UsersEntity> GetUserByIdAsync(int userId);
-        Task AddUserAsync(UsersEntity user);
+        Task<bool> AddUserAsync(UsersEntity user);
         Task UpdateUserAsync(UsersEntity user);
         Task DeleteUserAsync(int userId);
     }

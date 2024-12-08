@@ -1,5 +1,6 @@
 ﻿using ClientSideLibraryManagementSystem.Models;
 using System.Net.Http.Headers;
+using System.Transactions;
 
 namespace ClientSideLibraryManagementSystem.Services
 {
@@ -11,9 +12,19 @@ namespace ClientSideLibraryManagementSystem.Services
         {
             _httpClient = httpClient;
         }
-        public Task<AuthorsEntity> AddAuthorAsync(AuthorsEntity author)
+        public async Task<bool> AddAuthorAsync(AuthorsEntity author,string token)
         {
-            throw new NotImplementedException();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+            var formData = new MultipartFormDataContent();
+
+            formData.Add(new StringContent(author.Name), "Name");
+            formData.Add(new StringContent(author.Bio), "Bio");
+            var response = await _httpClient.PostAsync("https://localhost:7084/api/Authors", formData);
+
+            // Return whether the API request was successful
+            return response.IsSuccessStatusCode;
         }
 
         public Task<bool> DeleteAuthorAsync(int authorId)

@@ -8,7 +8,7 @@ namespace ClientSideLibraryManagementSystem.Services
     {
         Task<IEnumerable<AuthorsEntity>> GetAllAuthorsAsync(string token);
         Task<AuthorsEntity> GetAuthorByIdAsync(int authorId);
-        Task<AuthorsEntity> AddAuthorAsync(AuthorsEntity author);
+        Task<bool> AddAuthorAsync(AuthorsEntity author,string token);
         Task<AuthorsEntity> UpdateAuthorAsync(AuthorsEntity author);
         Task<bool> DeleteAuthorAsync(int authorId);
     }

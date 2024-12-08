@@ -36,7 +36,7 @@ namespace ClientSideLibraryManagementSystem.Controllers
                     HttpContext.Session.SetString("JWToken", token);
 
                     // Redirect to the dashboard on successful login
-                    return RedirectToAction("Index","Author");
+                    return RedirectToAction("Index","Dashboard");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
