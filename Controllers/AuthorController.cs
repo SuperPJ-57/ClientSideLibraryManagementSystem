@@ -1,6 +1,7 @@
 ﻿using ClientSideLibraryManagementSystem.Models;
 using ClientSideLibraryManagementSystem.Services;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClientSideLibraryManagementSystem.Controllers
 {
@@ -16,8 +17,23 @@ namespace ClientSideLibraryManagementSystem.Controllers
         }
         public IActionResult Index()
         {
-            var authors = _authorService.GetAllAuthorsAsync().Result;
-            return View(authors);
+            var token = _httpContextAccessor.HttpContext.Session.GetString("JWToken");
+            if (string.IsNullOrEmpty(token))
+            {
+                // If no token is present, redirect to login
+                return RedirectToAction("Login", "Auth");
+            }
+            var authors = _authorService.GetAllAuthorsAsync(token).Result;
+            var authormodel = new AuthorViewModel
+            {
+                Authors = authors,
+                Author = null
+            };
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")  // Check if it's an AJAX request
+            {
+                return PartialView("_AuthorPartial", authormodel);
+            }
+            return View(authormodel);
         }
 
         [HttpPost]

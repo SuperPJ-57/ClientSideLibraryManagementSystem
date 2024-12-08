@@ -1,41 +1,42 @@
 ﻿using ClientSideLibraryManagementSystem.Models;
+using Lms.Domain.Interfaces;
 using System.Net.Http.Headers;
 
 namespace ClientSideLibraryManagementSystem.Services
 {
-    public class AuthorService : IAuthorService
+    public class StudentService : IStudentService
     {
         private readonly HttpClient _httpClient;
-
-        public AuthorService(HttpClient httpClient)
+        public StudentService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
-        public Task<AuthorsEntity> AddAuthorAsync(AuthorsEntity author)
+        public Task<bool> AddStudentAsync(StudentsEntity student, string token)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAuthorAsync(int authorId)
+        public Task DeleteStudentAsync(int studentId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<AuthorsEntity>> GetAllAuthorsAsync(string token)
+       
+        public async Task<IEnumerable<StudentsEntity>> GetAllStudentsAsync(string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            var response = await _httpClient.GetAsync("https://localhost:7084/api/Authors");
+            var response = await _httpClient.GetAsync("https://localhost:7084/api/Students");
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadFromJsonAsync<IEnumerable<AuthorsEntity>>();
+            return await response.Content.ReadFromJsonAsync<IEnumerable<StudentsEntity>>();
         }
 
-        public Task<AuthorsEntity> GetAuthorByIdAsync(int authorId)
+        public Task<StudentsEntity> GetStudentByIdAsync(int studentId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<AuthorsEntity> UpdateAuthorAsync(AuthorsEntity author)
+        public Task<bool> UpdateStudentAsync(StudentsEntity student)
         {
             throw new NotImplementedException();
         }

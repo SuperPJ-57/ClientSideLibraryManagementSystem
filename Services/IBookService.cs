@@ -2,12 +2,12 @@
 
 namespace ClientSideLibraryManagementSystem.Services
 {
-    public interface IStudentService
+    public interface IBookService
     {
-        Task<IEnumerable<StudentsEntity>> GetAllStudentsAsync();
-        Task<StudentsEntity> GetStudentByIdAsync(int authorId);
-        Task<StudentsEntity> AddStudentAsync(StudentsEntity author);
-        Task<StudentsEntity> UpdateStudentAsync(StudentsEntity author);
-        Task<bool> DeleteStudentAsync(int authorId);
+        Task<IEnumerable<BooksEntity>> GetAllBooksAsync(string token);
+        Task<BooksEntity> GetBookByIdAsync(int bookId);
+        Task<BooksEntity> AddBookAsync(BooksEntity book);
+        Task<BooksEntity> UpdateBookAsync(BooksEntity book);
+        Task<bool> DeleteBookAsync(int bookId);
     }
 }

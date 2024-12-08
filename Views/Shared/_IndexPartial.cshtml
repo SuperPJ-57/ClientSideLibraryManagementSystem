@@ -1,6 +1,6 @@
 ﻿@model DashboardData
 @{
-    ViewData["Title"] = "Dashboard";
+    Layout = null;
 }
 
 <!DOCTYPE html>
@@ -18,11 +18,25 @@
             background-color: #f8f9fa;
         }
 
-        .sidebar a:hover {
-            background-color: #34495e;
+        .sidebar {
+            height: 100vh;
+            background-color: #2c3e50;
             color: white;
-            text-decoration: none;
+            padding: 20px;
         }
+
+            .sidebar a {
+                color: white ;
+                text-decoration: none ;
+                display: block ;
+                padding: 10px 0 ;
+            }
+
+                .sidebar a:hover {
+                    background-color: #34495e ;
+                    color: white ;
+                }
+
         .content {
             padding: 20px;
         }
@@ -35,7 +49,7 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            
+
             <main role="main" class="col-md-12 ml-sm-2 col-lg-12 px-4 content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Dashboard</h1>
@@ -99,19 +113,31 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <script>
-        var ctx = document.getElementById('pieChart').getContext('2d');
-        var pieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Total Borrowed Books', 'Toal Returned Books'],
-                datasets: [{
-                    data: [@Model.TotalBorrowedBooks, @Model.TotalReturnedBooks],
-                    backgroundColor: ['#317FB1', '#255D81']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
+        function initializePieChart() {
+            var ctx = document.getElementById('pieChart').getContext('2d');
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Total Borrowed Books', 'Total Returned Books'],
+                    datasets: [{
+                        data: [@Model.TotalBorrowedBooks, @Model.TotalReturnedBooks],
+                        backgroundColor: ['#317FB1', '#255D81']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+        $(document).ready(function () {
+            var chartScript = document.querySelector('script[src="https://cdn.jsdelivr.net/npm/chart.js"]');
+            if (chartScript) {
+                chartScript.onload = function () {
+                    initializePieChart();
+                };
+            } else {
+                initializePieChart();
             }
         });
     </script>

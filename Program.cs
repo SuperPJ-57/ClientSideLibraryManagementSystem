@@ -1,4 +1,5 @@
 using ClientSideLibraryManagementSystem.Services;
+using Lms.Domain.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 // Register HttpClient
@@ -7,8 +8,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IAuthService, AuthService>();
 builder.Services.AddTransient<IAuthorService, AuthorService>();
+builder.Services.AddTransient<IBookService, BookService>();
+builder.Services.AddTransient<ITransactionService, TransactionService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IDashboardService, DashboardService>();
+builder.Services.AddTransient<IStudentService, StudentService>();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

@@ -1,0 +1,157 @@
+﻿@model StudentViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .sidebar a:hover {
+            background-color: #34495e;
+            color: white;
+            text-decoration: none;
+        }
+
+        .form-section {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section h2 {
+            margin-bottom: 20px;
+            color: #255D81;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section h2 img {
+            margin-right: 10px;
+        }
+
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .btn-custom {
+            background-color: #255D81;
+            border-radius: 25px;
+            color: white;
+        }
+
+        .table-section {
+            margin-top: 40px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .icon-btn img {
+            width: 20px;
+            height: 20px;
+        }
+
+        @@media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h2>
+                <img src="/resources/student.png" alt="Add Student Icon"> Add Student
+            </h2>
+            <form asp-action="AddStudent" asp-controller="Student" method="post">
+                <div class="form-group">
+                    <label for="StudentId">Student ID</label>
+                    <input type="text" class="form-control" id="StudentID" name="StudentId" placeholder="Enter student ID">
+                </div>
+                <div class="form-group">
+                    <label for="FullName">Full Name</label>
+                    <input type="text" class="form-control" id="FullName" name="Name" placeholder="Enter full name">
+                </div>
+                <div class="form-group">
+                    <label for="Faculty">Faculty</label>
+                    <input type="text" class="form-control" id="Faculty" name="Department" placeholder="Enter faculty">
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="ContactNo">Contact Number</label>
+                    <input type="text" class="form-control" id="ContactNo" name="ContactNumber" placeholder="Enter contact number">
+                </div>
+                <button type="submit" class="btn btn-custom">Add Student</button>
+            </form>
+        </div>
+        <div class="table-section mt-4">
+            <h2>Student List</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Full Name</th>
+                        <th>Faculty</th>
+                        <th>Email</th>
+                        <th>Contact No.</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        <tr>
+                            <td>@student.StudentId</td>
+                            <td>@student.Name</td>
+                            <td>@student.Department</td>
+                            <td>@student.Email</td>
+                            <td>@student.ContactNumber</td>
+                            <td>
+                                <form asp-action="EditStudent" asp-controller="Student" method="get" style="display:inline;">
+                                    <input type="hidden" name="id" value="@student.StudentId" />
+                                    <button type="submit" class="icon-btn">
+                                        <img src="/resources/edit.png" alt="Edit Icon">
+                                    </button>
+                                </form>
+                                <form asp-action="DeleteStudent" asp-controller="Student" method="post" style="display:inline;">
+                                    <input type="hidden" name="id" value="@student.StudentId" />
+                                    <button type="submit" class="icon-btn">
+                                        <img src="/resources/delete.png" alt="Delete Icon">
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
