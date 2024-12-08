@@ -11,9 +11,19 @@ namespace ClientSideLibraryManagementSystem.Services
         {
             _httpClient = httpClient;
         }
-        public Task<bool> AddStudentAsync(StudentsEntity student, string token)
+        public async Task<bool> AddStudentAsync(StudentsEntity student, string token)
         {
-            throw new NotImplementedException();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var formData = new MultipartFormDataContent();
+
+            formData.Add(new StringContent(student.Name), "Name");
+            formData.Add(new StringContent(student.Email), "Email");
+            formData.Add(new StringContent(student.ContactNumber), "ContactNumber");
+            formData.Add(new StringContent(student.Department), "Department");
+
+            var response = await _httpClient.PostAsync("https://localhost:7084/api/Students", formData);
+
+            return response.IsSuccessStatusCode;
         }
 
         public Task DeleteStudentAsync(int studentId)

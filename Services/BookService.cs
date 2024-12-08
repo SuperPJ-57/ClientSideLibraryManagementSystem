@@ -19,9 +19,21 @@ namespace ClientSideLibraryManagementSystem.Services
 
             return await response.Content.ReadFromJsonAsync<IEnumerable<BooksEntity>>();
         }
-        public Task<BooksEntity> AddBookAsync(BooksEntity book)
+        public async Task<bool> AddBookAsync(BooksEntity book,string token)
         {
-            throw new NotImplementedException();
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+
+            var formData = new MultipartFormDataContent();
+
+            formData.Add(new StringContent(book.Title), "Title");
+            formData.Add(new StringContent(book.Genre), "Genre");
+            formData.Add(new StringContent(book.AuthorId.ToString()), "AuthorId");
+            formData.Add(new StringContent(book.ISBN), "ISBN");
+            var response = await _httpClient.PostAsync("https://localhost:7084/api/Books", formData);
+
+            // Return whether the API request was successful
+            return response.IsSuccessStatusCode;
         }
 
         public Task<bool> DeleteBookAsync(int bookId)

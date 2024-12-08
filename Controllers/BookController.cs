@@ -32,5 +32,34 @@ namespace ClientSideLibraryManagementSystem.Controllers
             }
             return View(bookmodel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBook(AddBookModel model)
+        {
+            var token = _httpContextAccessor.HttpContext.Session.GetString("JWToken");
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return RedirectToAction("Login", "Auth");
+            }
+            if (ModelState.IsValid == false)
+            {
+                return RedirectToAction("Index");
+            }
+            var book = new BooksEntity
+            {
+                Title = model.Title,
+                Genre = model.Genre,
+                AuthorId = model.AuthorId,
+                ISBN = model.ISBN
+            };
+            var result = await _bookService.AddBookAsync(book, token);
+            if (!result)
+            {
+                ModelState.AddModelError("", "Error adding book.");
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

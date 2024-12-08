@@ -6,7 +6,7 @@ namespace ClientSideLibraryManagementSystem.Services
     {
         Task<IEnumerable<BooksEntity>> GetAllBooksAsync(string token);
         Task<BooksEntity> GetBookByIdAsync(int bookId);
-        Task<BooksEntity> AddBookAsync(BooksEntity book);
+        Task<bool> AddBookAsync(BooksEntity book,string token);
         Task<BooksEntity> UpdateBookAsync(BooksEntity book);
         Task<bool> DeleteBookAsync(int bookId);
     }

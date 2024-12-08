@@ -29,7 +29,7 @@ namespace ClientSideLibraryManagementSystem.Controllers
 
             return View();
         }
-        [Route("Transaction/TransactionRegister")]
+        //[Route("Transaction/TransactionRegister")]
         [HttpPost]
         public async Task<IActionResult> AddTransaction(AddTransactionModel model)
         {

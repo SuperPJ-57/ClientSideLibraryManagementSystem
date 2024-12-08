@@ -33,8 +33,9 @@ namespace ClientSideLibraryManagementSystem.Controllers
 
             return View(students);
         }
-        [Route("Student/StudentRegister")]
-        public async Task<IActionResult> AddStudent(StudentsEntity student)
+        //[Route("StudentRegister")]
+        [HttpPost]
+        public async Task<IActionResult> AddStudent(AddStudentModel model)
         {
             var token = _httpContextAccessor.HttpContext.Session.GetString("JWToken");
 
@@ -46,6 +47,14 @@ namespace ClientSideLibraryManagementSystem.Controllers
             {
                 return RedirectToAction("Index");
             }
+            var student = new StudentsEntity
+            {
+                Name = model.Name,
+                Email = model.Email,
+                ContactNumber = model.ContactNumber,
+                Department = model.Department
+            };
+
             var result = await _studentService.AddStudentAsync(student, token);
             if (!result)
             {
